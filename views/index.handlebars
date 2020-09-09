@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>greetings</title>
+	<link rel="stylesheet" href="css/greet.css">
+</head>
+
+<body>
+	<div class="container">
+		 <form action="/greet" method="POST">
+		<h1><u>Greetings</u></h1>
+		name
+	
+		<input type="text" name="nameValue"  class="nameEntered" placeholder="enter your name">
+		<br><br>
+	
+
+	<div class='greetBtn'>
+			<input type = 'submit' class= 'nameBtn' value = 'greet me'>
+		 <input type = 'button' class= 'resetBtn' value = 'reset'>
+			
+		</div>
+
+		<div class = 'languages'>
+			<input type='radio' name='languageType' class='languageType' value="English">
+			<span class = 'label-body'>English</span>
+			<input type='radio' name='languageType' class='languageType' value="Afrikaans">
+			<span class = 'label-body'>Afrikaans</span>
+			<input type='radio' name='languageType' class='languageType' value="IsiXhosa">
+			<span class = 'label-body'>IsiXhosa</span>
+			<br><br>
+
+		</div>
+
+			
+			
+			 
+					<div class = 'message'>{{message}}</div>
+				</form>
+				<a href="/greeted">EnteredName</a>
+				 
+		<div class ='counter'>{{count}}</div>
+		<div class ='name'>{{name}}</div>
+
+		
+	</div>
+	
+</body>
+</html>
