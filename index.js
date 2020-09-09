@@ -48,11 +48,12 @@ app.get('/greeted/:userName', function(req, res){
 	
 	//it redirect the default route
 	res.render("greeted", {
-        names : count
+        names : '${greeted} have been greeted ${count} times'
     });
 	
 	
 });
+
 
 
 
