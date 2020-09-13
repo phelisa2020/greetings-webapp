@@ -19,9 +19,11 @@ function counter (){
 
 
 function greeted(languagePicked, userName){
-if(languagePicked === 'English'){
- 		return ('Hi, '+ userName);
+	if (languagePicked && userName) {
+		// req.flash('info', 'please enter name!!!!!')
+		if(languagePicked === 'English'){
 
+			return ('Hi, '+ userName);
 }
  	else if(languagePicked === 'Afrikaans'){
  		return ('More, '+ userName);
@@ -30,8 +32,8 @@ if(languagePicked === 'English'){
  	else if(languagePicked === 'IsiXhosa'){
  		return ('Molo, '+ userName);
  	}
+	}
  	
-
 	}
 
 	function errorMessages(languagePicked, userName){

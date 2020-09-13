@@ -39,3 +39,7 @@ body {
   .counter{
   	font-size : 2em;
   }
+  .info{
+  	color: red;
+  	margin-bottom: 1em;
+  }
