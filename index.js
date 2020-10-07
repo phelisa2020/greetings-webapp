@@ -4,33 +4,26 @@ const bodyParser = require('body-parser');
 const greetings = require('./greet');
  const flash = require('express-flash');
  const session = require('express-session');
-
- const pg = require("pg");
+const pg = require("pg");
 const Pool = pg.Pool;
-const connectionString = process.env.DATABASE_URL || 'postgresql://coder:pg123@localhost:5432/my_products';
+ 
 
 // should we use a SSL connection
-// let useSSL = false;
-// let local = process.env.LOCAL || false;
-// if (process.env.DATABASE_URL && !local){
-//     useSSL = true;
-// }
-
+let useSSL = false;
+let local = process.env.LOCAL || false;
+if (process.env.DATABASE_URL && !local){
+    useSSL = true;
+}
 // which db connection to use
+const connectionString = process.env.DATABASE_URL || 'postgresql://coder:pg123@localhost:5432/my_products';
 
 const pool = new Pool({
-    connectionString: connectionString
-
+    connectionString,
+    ssl : useSSL
   });
-pool.connect()
-
-pool.query('SELECT * from greetings', (err, res)=>{
-  console.log(err,res)
-  pool.end()
-})
-
 const greet = greetings() 
 const app = express()
+
 
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: false })); // add this line
@@ -59,20 +52,26 @@ app.get('/addFlash', function (req, res) {
     count: greet.counter()
  });
  });
+ 
 
 	app.post('/greet', function(req, res){
 	 // req.flash('info', 'please enter name');
   //    res.redirect('/');
-  let name = (req.body.nameValue).toLowerCase();
+  let name = (req.body.greeted_name).toLowerCase();
   let language = req.body.languageType;
 if (name === ''){
-	req.flash('info', 'please enter name')
+  req.flash('info', 'please enter name'),
+  await pool.query('insert into greetings (greeted_name, greeted_counter) value($1, $2)' , [name ,language 1]);
 }
 else if(language === undefined && name != ''){
-	 req.flash('info', 'please select a language')
+   req.flash('info', 'please select a language'),
+   await pool.query('insert into greetings (greeted_name, greeted_counter) value($1, $2)' , [name ,language, 1]);
+
 }
 else{
-	greet.storeName(name, language)
+  greet.storeName(name, language),
+  await pool.query('insert into greetings (greeted_name, greeted_counter) value($1, $2)' , [name ,language 1]);
+
 	}	
 
 	// var error = greet.errorMessages(name, language);

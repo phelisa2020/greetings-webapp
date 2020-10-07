@@ -3,13 +3,13 @@ module.exports = function greet(){
 const namesGreeted = {}
 
 function storeName(userName){
-	// if(userName){
-	if (namesGreeted[userName] === undefined){
-     namesGreeted[userName] = 0;
+    let results = await pool.query('select greeted_name from greetings where greeted_name = $1', [userName]);
+	if (results.rowCount === 0){
+		await pool.query('insert into greetings (greeted_name, greeted_counter) value($1, $2)' , [userName ,1]);
   
 }
 
- namesGreeted[userName]++
+await pool.query('update greetings set greeted_counter = greeted_counter +1  where greeted_name = $1',[userName]) 
 }
 
 function counter (){
