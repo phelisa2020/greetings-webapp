@@ -53,8 +53,8 @@ function getNames(){
 	return namesGreeted
 }
 function getNameCounter(userName){
-	console.log({userName, namesGreeted});
-	console.log(namesGreeted[userName]);
+	// console.log({userName, namesGreeted});
+	// console.log(namesGreeted[userName]);
 
 	return  namesGreeted[userName] ;
 }
