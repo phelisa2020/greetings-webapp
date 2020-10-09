@@ -15,7 +15,7 @@ if (process.env.DATABASE_URL && !local) {
   useSSL = true;
 }
 //` which db connection to use
-const connectionString = process.env.DATABASE_URL || 'postgresql://coder:pg123@localhost:5432/greetings';
+const connectionString = process.env.DATABASE_URL || 'postgresql://codex:pg123@localhost:5432/greetings';
 
 const pool = new Pool({
   connectionString,
@@ -49,7 +49,7 @@ app.get('/addFlash', function (req, res) {
 app.get('/', async function (req, res) {
 
   res.render('index', {
-    count: greet.counter()
+    // count: greet.counter()
   });
 });
 
@@ -61,7 +61,12 @@ app.get('/', async function (req, res) {
 app.post('/greet', async function (req, res) {
   // req.flash('info', 'please enter name');
   //    res.redirect('/');
-  let name = (req.body.nameValue).toLowerCase();
+  // await greet.getNames
+  let name = req.body.nameValue;
+  if(name){
+    await greet.storeName(name)
+
+  }
   let language = req.body.languageType;
   if (name === '') {
     req.flash('info', 'please enter name')
@@ -69,10 +74,8 @@ app.post('/greet', async function (req, res) {
   else if (language === undefined && name != '') {
     req.flash('info', 'please select a language')
   }
-  else {
-    greet.storeName(name, language)
-  }
-
+ 
+// console.log(await greet.counter() + "dfghjkxsdfghjxcvg")
   // var error = greet.errorMessages(name, language);
   res.render('index', {
     message: await greet.greeted(req.body.languageType, req.body.nameValue),
@@ -128,7 +131,7 @@ app.get('/', async function (req, res) {
 
 
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3003;
 app.listen(PORT, function () {
   console.log('App started at port:', PORT);
 })

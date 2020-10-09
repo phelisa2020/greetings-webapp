@@ -4,23 +4,22 @@ module.exports = function greet(pool) {
 
 	async function storeName(userName) {
 
-		const SQLcheck = "select count(*) from greetings where greeted_name = $1";
-		const results = await pool.query(SQLcheck, [userName]);
-		console.log(results.rows);
+		const SQLcheck = "select greeted_name from greetings where greeted_name = $1";
+		 const results = await pool.query(SQLcheck, [userName]);
+		 console.log(results.rowCount);
 
-		if(results.rows[0].count === 0){
-			const SQLinsert = "insert into greetings(greeted_name, greeted_count) values ($1, 1)"
-		return	await pool.query(SQLinsert, [userName])
+  if(results.rowCount === 0 ){
+			const SQLinsert = "insert into greetings(greeted_name, greeted_count) values ($1, $2)"
+			await pool.query(SQLinsert, [userName, 1])
 		}
-
-		else if (results.rows.length > 0) {
-			const updateSQL = "upadate greetings set greeted_count = greeted_count + 1 where greeted_name = $1";
-		return	await pool.query(updateSQL, userName)
-
+		 else {
+			const updateSQL = "update greetings set greeted_count = greeted_count + 1 where greeted_name = $1";
+			await pool.query(updateSQL, [userName])
+		 }
 			
-		}
+		 }
 		
-	}
+	
 
 	async function counter() {
 		let names = await pool.query ("select * from greetings");
@@ -73,7 +72,9 @@ module.exports = function greet(pool) {
 	async function getNameCounter(userName) {
 		// console.log({userName, namesGreeted});
 		// console.log(namesGreeted[userName]);
-
+const checkingSQL = "select * from greetings where greeted_name = $1";
+const results = await pool.query(checkingSQL, [userName])
+return results.rows[0]["greeted_count"]
 		return namesGreeted[userName];
 	}
 
