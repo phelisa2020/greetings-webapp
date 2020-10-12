@@ -10,7 +10,6 @@ const pool = new Pool({
     connectionString
 });
 
-
 describe('The basic database web app', function(){
 
     beforeEach(async function(){
@@ -26,14 +25,68 @@ describe('The basic database web app', function(){
        
     });
 
-    it('should be able to greet phelisa in English',async function(){
- 	
-      let greet = greetings(pool);
+	 
+		it('should greet lisa once',async function(){
+		 
+		  let greet = greetings(pool);
+	
+		  await greet.storeName('Lisa');
+		  let result = await greet.getNames();
+	   
+		 assert.deepStrictEqual(result, {"Lisa":1});
+	  })
+
+      it('should greet lisa twice',async function(){
+		 
+        let greet = greetings(pool);
+  
+        await greet.storeName('Lisa');
+        await greet.storeName('Lisa');
+        await greet.storeName('Lisa');
+        let result = await greet.getNames();
      
-     var theMessage = await greetings.greeted('English', 'lisa')
- 
-     assert.strictEqual(theMessage, 'Hi, lisa');
-  })
+       assert.deepStrictEqual(result, {"Lisa":3});
+    })
+
+    it('should keeps on counting how many users has been greeted',async function(){
+		 
+        let greet = greetings(pool);
+  
+        await greet.storeName('sino');
+        await greet.storeName('azi');
+        await greet.storeName('busi');
+       
+        let resultCount = await greet.counter();
+     
+       assert.deepStrictEqual(resultCount, 3);
+    })
+
+    it('should keeps on counting how many users has been greeted and dont count a name more than once',async function(){
+		 
+        let greet = greetings(pool);
+  
+        await greet.storeName('sino');
+        await greet.storeName('azi');
+        await greet.storeName('busi');
+        await greet.storeName('sino');
+        await greet.storeName('sino');
+
+       
+        let resultCount = await greet.counter();
+     
+       assert.deepStrictEqual(resultCount, 3);
+    })
+
+
+
+
+//     it('should keeps on counting how many users has been greeted',function(){
+//         let greet = greetings(pool);
+  
+//   await greet. storeName('English', 'some');
+//   await greet. storeName('IsiXhosa', 'lisa');
+//   await greet. storeName('Afrikaans', 'kunga');
+//     assert.deepStrictEqual(3, greet.counter());
 
 //   it('should be able to greet phelisa in Afrikaans',function(){
 //    var greetings = names()
@@ -54,28 +107,10 @@ describe('The basic database web app', function(){
 
 // })
 
-// it('should keeps on counting how many users has been greeted',function(){
-//   var greetings = names()
-  
-//   greetings. storeName('English', 'some')
-//   greetings. storeName('IsiXhosa', 'lisa')
-//   greetings. storeName('Afrikaans', 'kunga')
-//     assert.equal(3, greetings.counter());
 
 
 // })
-// it('should keeps on counting how many users has been greeted and dont count a name more than once',function(){
-//   var greetings = names()
-  
-//   greetings. storeName('English', 'some')
-//   greetings. storeName('IsiXhosa', 'lisa')
-//   greetings. storeName('Afrikaans', 'kunga')
-//    greetings. storeName('English', 'some')
-//   greetings. storeName('IsiXhosa', 'lisa')
-//     assert.equal(3, greetings.counter());
 
-
-// })
 
 
     after(function(){

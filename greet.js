@@ -26,24 +26,7 @@ module.exports = function greet(pool) {
      return names.rowCount
 	}
 	
-	// """describe('The basic database web app', function(){
-
-	// 	beforeEach(async function(){
-	// 		// clean the tables before each test run
-	// 		await pool.query("delete from greetings;");
-			
-	// 	});
 	
-	 
-	// 	it('should greet lisa once',async function(){
-		 
-	// 	  let greet = greetings(pool);
-	
-	// 	  await greet.storeName('Lisa');
-	// 	  let result = await greet.getNames();
-	   
-	// 	 assert.deepStrictEqual(result, {"Lisa":1});
-	//   })
 
 	async function greeted(languagePicked, userName) {
 		if (languagePicked && userName) {
