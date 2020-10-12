@@ -110,7 +110,18 @@ describe('The basic database web app', function(){
 
 
 // })
+// it('should keeps on counting how many users has been greeted and dont count a name more than once',function(){
+//   var greetings = names()
+  
+//   greetings. storeName('English', 'some')
+//   greetings. storeName('IsiXhosa', 'lisa')
+//   greetings. storeName('Afrikaans', 'kunga')
+//    greetings. storeName('English', 'some')
+//   greetings. storeName('IsiXhosa', 'lisa')
+//     assert.equal(3, greetings.counter());
 
+
+// })
 
 
     after(function(){
