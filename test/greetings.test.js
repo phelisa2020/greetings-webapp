@@ -10,121 +10,127 @@ const pool = new Pool({
     connectionString
 });
 
-describe('The basic database web app', function(){
+describe('The basic database web app', function () {
 
-    beforeEach(async function(){
+    beforeEach(async function () {
         // clean the tables before each test run
         await pool.query("delete from greetings;");
-        
+
     });
 
-    it('should pass the db test', async function(){
-        
-        // the Factory Function is called CategoryService
-        let greet = greetings(pool);
-       
-    });
+    // it('should pass the db test', async function () {
 
-	 
-		it('should greet lisa once',async function(){
-		 
-		  let greet = greetings(pool);
-	
-		  await greet.storeName('Lisa');
-		  let result = await greet.getNames();
-	   
-		 assert.deepStrictEqual(result, {"Lisa":1});
-	  })
+    //     // the Factory Function is called CategoryService
+    //     let greet = greetings(pool);
 
-      it('should greet lisa twice',async function(){
-		 
+    // });
+
+
+    it('should greet lisa once', async function () {
+
         let greet = greetings(pool);
-  
+
+        await greet.storeName('Lisa');
+        let result = await greet.getNames();
+
+        assert.deepStrictEqual(result, { "Lisa": 1 });
+    })
+
+    it('should greet lisa 3 times', async function () {
+
+        let greet = greetings(pool);
+
         await greet.storeName('Lisa');
         await greet.storeName('Lisa');
         await greet.storeName('Lisa');
         let result = await greet.getNames();
-     
-       assert.deepStrictEqual(result, {"Lisa":3});
+
+        assert.deepStrictEqual(result, { "Lisa": 3 });
     })
 
-    it('should keeps on counting how many users has been greeted',async function(){
-		 
+    
+    it('should keeps on counting how many users has been greeted ', async function () {
+
         let greet = greetings(pool);
-  
-        await greet.storeName('sino');
-        await greet.storeName('azi');
-        await greet.storeName('busi');
-       
+
+        await greet.storeName('English', 'sino');
+        await greet.storeName('IsiXhosa', 'lisa');
+        await greet.storeName('Afrikaans', 'lisa');
+        
+        
         let resultCount = await greet.counter();
-     
-       assert.deepStrictEqual(resultCount, 3);
+
+        assert.deepStrictEqual(resultCount, 3);
     })
 
-    it('should keeps on counting how many users has been greeted and dont count a name more than once',async function(){
-		 
+
+    it('should keeps on counting how many users has been greeted and dont count a name more than once', async function () {
+
         let greet = greetings(pool);
-  
-        await greet.storeName('sino');
-        await greet.storeName('azi');
-        await greet.storeName('busi');
-        await greet.storeName('sino');
-        await greet.storeName('sino');
 
-       
+        await greet.storeName('English', 'sino');
+        await greet.storeName('IsiXhosa', 'lisa');
+        await greet.storeName('Afrikaans', 'lisa');
+        await greet.storeName('Afrikaans', 'lisa');
+        await greet.storeName('Afrikaans', 'lisa');
+        
+
+        
+        
         let resultCount = await greet.counter();
-     
-       assert.deepStrictEqual(resultCount, 3);
+
+        assert.deepStrictEqual(resultCount, 3);
+    })
+
+
+    it('should be able to greet phelisa in IsiXhosa', async function () {
+
+        let greet = greetings(pool);
+        var theMessageElem = await greet.greeted('IsiXhosa', 'lisa')
+
+        assert.deepStrictEqual(theMessageElem, 'Molo, lisa');
+
+
+    })
+    it('should be able to greet phelisa in English', async function () {
+
+        let greet = greetings(pool);
+        var theMessageElem = await greet.greeted('English', 'lisa')
+
+        assert.deepStrictEqual(theMessageElem, 'Hi, lisa');
+
+
+    })
+    it('should be able to greet phelisa in Afrikaans', async function () {
+
+        let greet = greetings(pool);
+        var theMessageElem = await greet.greeted('Afrikaans', 'lisa')
+
+        assert.deepStrictEqual(theMessageElem, 'More, lisa');
+
+
+    })
+
+
+    it('should throw an error when the name is not selected', async function () {
+
+        let greet = greetings(pool);
+        var theMessageElement = await greet.errorMessages('please select a name')
+
+        assert.deepStrictEqual(theMessageElement, '');
+
+
     })
 
 
 
-
-//     it('should keeps on counting how many users has been greeted',function(){
-//         let greet = greetings(pool);
-  
-//   await greet. storeName('English', 'some');
-//   await greet. storeName('IsiXhosa', 'lisa');
-//   await greet. storeName('Afrikaans', 'kunga');
-//     assert.deepStrictEqual(3, greet.counter());
-
-//   it('should be able to greet phelisa in Afrikaans',function(){
-//    var greetings = names()
-  
-//   var theMessageElem = greetings.greeted('Afrikaans', 'lisa')
-
-//   assert.equal(theMessageElem, 'More, lisa');
-
-
-// })
-// it('should be able to greet phelisa in IsiXhosa',function(){
-//    var greetings = names()
-  
-//   var theMessageElem = greetings.greeted('IsiXhosa', 'lisa')
-
-//   assert.equal(theMessageElem, 'Molo, lisa');
-
-
-// })
+   
+    
 
 
 
-// })
-// it('should keeps on counting how many users has been greeted and dont count a name more than once',function(){
-//   var greetings = names()
-  
-//   greetings. storeName('English', 'some')
-//   greetings. storeName('IsiXhosa', 'lisa')
-//   greetings. storeName('Afrikaans', 'kunga')
-//    greetings. storeName('English', 'some')
-//   greetings. storeName('IsiXhosa', 'lisa')
-//     assert.equal(3, greetings.counter());
 
-
-// })
-
-
-    after(function(){
+    after(function () {
         pool.end();
     })
 });

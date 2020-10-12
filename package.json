@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
@@ -31,5 +32,5 @@
     "url": "https://github.com/phelisa2020/greetings-webapp/issues"
   },
   "homepage": "https://github.com/phelisa2020/greetings-webapp#readme",
-  "description": ""
+  "description": "[![Build Status](https://travis-ci.org/phelisa2020/greetings-webapp.svg?branch=master)](https://travis-ci.org/phelisa2020/greetings-webapp)"
 }
