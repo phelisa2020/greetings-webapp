@@ -75,27 +75,27 @@ describe('The basic database web app', function () {
     it('should be able to greet phelisa in IsiXhosa', async function () {
 
         let greet = greetings(pool);
-        var theMessageElem = await greet.greeted('IsiXhosa', 'lisa')
+        var theMessageElem = await greet.greeted('IsiXhosa', 'Lisa')
 
-        assert.deepStrictEqual(theMessageElem, 'Molo, lisa');
+        assert.deepStrictEqual(theMessageElem, 'Molo, Lisa');
 
 
     })
     it('should be able to greet phelisa in English', async function () {
 
         let greet = greetings(pool);
-        var theMessageElem = await greet.greeted('English', 'lisa')
+        var theMessageElem = await greet.greeted('English', 'Lisa')
 
-        assert.deepStrictEqual(theMessageElem, 'Hi, lisa');
+        assert.deepStrictEqual(theMessageElem, 'Hi, Lisa');
 
 
     })
     it('should be able to greet phelisa in Afrikaans', async function () {
 
         let greet = greetings(pool);
-        var theMessageElem = await greet.greeted('Afrikaans', 'lisa')
+        var theMessageElem = await greet.greeted('Afrikaans', 'Lisa')
 
-        assert.deepStrictEqual(theMessageElem, 'More, lisa');
+        assert.deepStrictEqual(theMessageElem, 'More, Lisa');
 
 
     })

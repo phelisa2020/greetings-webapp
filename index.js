@@ -53,6 +53,13 @@ app.get('/', async function (req, res) {
   });
 });
 
+app.post('/delete', async function (req, res) {
+
+  
+  res.redirect('/')
+});
+
+
 
 // 	app.post('/greet', function(req, res){
 // 	 // req.flash('info', 'please enter name');

@@ -1,8 +1,14 @@
 body {
 	font-family: arial;
-	color: white;
+	color: black;
 	background-color: pink;
 	font-size: 27px
+  }
+  .btn{
+	  margin: 00.5em;
+	  width: 10em;
+	  padding: 00.5em;
+	  background-color: gold;
   }
 
 .container {
