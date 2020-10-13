@@ -15,7 +15,7 @@ body {
 	padding: 0.5em;
   }
   
-  input[type="button"] {
+  input[type="submit"] {
 	margin: 0.5em;
 	width: 10em;
 	padding: 0.5em;

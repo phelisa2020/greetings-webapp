@@ -18,14 +18,6 @@ describe('The basic database web app', function () {
 
     });
 
-    // it('should pass the db test', async function () {
-
-    //     // the Factory Function is called CategoryService
-    //     let greet = greetings(pool);
-
-    // });
-
-
     it('should greet lisa once', async function () {
 
         let greet = greetings(pool);
@@ -48,7 +40,7 @@ describe('The basic database web app', function () {
         assert.deepStrictEqual(result, { "Lisa": 3 });
     })
 
-    
+
     it('should keeps on counting how many users has been greeted ', async function () {
 
         let greet = greetings(pool);
@@ -56,8 +48,8 @@ describe('The basic database web app', function () {
         await greet.storeName('English', 'sino');
         await greet.storeName('IsiXhosa', 'lisa');
         await greet.storeName('Afrikaans', 'lisa');
-        
-        
+
+
         let resultCount = await greet.counter();
 
         assert.deepStrictEqual(resultCount, 3);
@@ -73,10 +65,7 @@ describe('The basic database web app', function () {
         await greet.storeName('Afrikaans', 'lisa');
         await greet.storeName('Afrikaans', 'lisa');
         await greet.storeName('Afrikaans', 'lisa');
-        
 
-        
-        
         let resultCount = await greet.counter();
 
         assert.deepStrictEqual(resultCount, 3);
@@ -121,14 +110,6 @@ describe('The basic database web app', function () {
 
 
     })
-
-
-
-   
-    
-
-
-
 
     after(function () {
         pool.end();
