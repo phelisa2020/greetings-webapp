@@ -53,8 +53,10 @@ app.get('/', async function (req, res) {
   });
 });
 
-app.post('/delete', async function (req, res) {
-
+app.get('/delete', async function (req, res) {
+ 
+    await greet.clearUsers()
+  
   
   res.redirect('/')
 });
@@ -108,6 +110,7 @@ app.get('/greeted', async function (req, res) {
 })
 
 
+
 app.get('/greeted/:userName', async function (req, res) {
   const userName = req.params.userName;
   var count = await greet.getNameCounter(userName);
@@ -138,7 +141,7 @@ app.get('/', async function (req, res) {
 
 
 
-const PORT = process.env.PORT || 3003;
+const PORT = process.env.PORT || 3006;
 app.listen(PORT, function () {
   console.log('App started at port:', PORT);
 })

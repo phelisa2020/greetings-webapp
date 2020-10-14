@@ -2,23 +2,28 @@
 module.exports = function greet(pool) {
 	const namesGreeted = {}
 
-	async function storeName(userName) {
 
+	async function storeName(userName) {
+		var regex = /[^A-Za-z]/g
+		let numbers = userName.replace(regex, "")
+		
+		var name = numbers.charAt(0).toUpperCase() + numbers.slice(1).toLowerCase()
 		const SQLcheck = "select greeted_name from greetings where greeted_name = $1";
-		const results = await pool.query(SQLcheck, [userName]);
+		const results = await pool.query(SQLcheck, [name]);
 		console.log(results.rowCount);
 
 		if (results.rowCount === 0) {
 			const SQLinsert = "insert into greetings(greeted_name, greeted_count) values ($1, $2)"
-			await pool.query(SQLinsert, [userName, 1])
+			await pool.query(SQLinsert, [name, 1])
 		}
 		else {
 			const updateSQL = "update greetings set greeted_count = greeted_count + 1 where greeted_name = $1";
-			await pool.query(updateSQL, [userName])
+			await pool.query(updateSQL, [name])
 		}
 
 	}
 	// 
+
 
 
 	async function counter() {
@@ -29,10 +34,11 @@ module.exports = function greet(pool) {
 
 
 	async function greeted(languagePicked, userName) {
-
+		 
+		
 		var regex = /[^A-Za-z]/g
 		let numbers = userName.replace(regex, "")
-		var name = numbers.charAt(0).toUpperCase() + numbers.slice(1)
+		var name = numbers.charAt(0).toUpperCase() + numbers.slice(1).toLowerCase()
 		if (languagePicked && name) {
 			// req.flash('info', 'please enter name!!!!!')
 			if (languagePicked === 'English') {
@@ -51,6 +57,8 @@ module.exports = function greet(pool) {
 	}
 
 	async function errorMessages(languagePicked, userName) {
+
+
 		var message = '';
 		if (userName === "") {
 			message = "Please enter a name";
@@ -73,7 +81,7 @@ module.exports = function greet(pool) {
 		})
 		return objectUser
 	}
-
+	
 	async function getNameCounter(userName) {
 		// console.log({userName, namesGreeted});
 		// console.log(namesGreeted[userName]);
@@ -82,6 +90,7 @@ module.exports = function greet(pool) {
 		return results.rows[0]["greeted_count"]
 		return namesGreeted[userName];
 	}
+	
 async function clearUsers() {
 await pool.query("delete from greetings");
 
@@ -94,8 +103,6 @@ await pool.query("delete from greetings");
 		getNames,
 		errorMessages,
 		getNameCounter
-
-
 		, clearUsers
 	}
 }
