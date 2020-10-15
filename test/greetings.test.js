@@ -115,6 +115,23 @@ let resultCount = await greet.getNameCounter("Lisa");
 
     })
 
+    it('should be able to reset the names', async function () {
+
+        let greet = greetings(pool);
+
+        await greet.storeName( 'Some')
+        await greet.storeName('Lisa')
+        await greet.storeName('Kunga')
+        await greet.storeName( 'Some')
+        await greet.storeName( 'Lisa')
+        await greet.clearUsers()
+
+        var clearNames = await greet.getNames()
+
+        assert.deepStrictEqual({}, clearNames);
+
+    })
+    
     after(function () {
         pool.end();
     })

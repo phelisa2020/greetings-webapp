@@ -2,6 +2,7 @@ const express = require("express");
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const greetings = require('./greet');
+const greetRoute = require('./routes')
 const flash = require('express-flash');
 const session = require('express-session');
 const pg = require("pg");
@@ -22,6 +23,7 @@ const pool = new Pool({
   // ssl: useSSL
 });
 const greet = greetings(pool)
+const greeted = greetRoute(greet)
 const app = express()
 
 
@@ -41,105 +43,19 @@ app.use(session({
 // initialise the flash middleware
 app.use(flash());
 
-app.get('/addFlash', function (req, res) {
-  req.flash('info', 'Flash Message Added');
-  res.redirect('/');
-});
+app.get('/addFlash',greeted.flashAdd)
 
-app.get('/', async function (req, res) {
+app.get('/', greeted.show);
 
-  res.render('index', {
-    // count: greet.counter()
-  });
-});
+app.get('/delete', greeted.clear);
 
-app.get('/delete', async function (req, res) {
- 
-    await greet.clearUsers()
-  
-  
-  res.redirect('/')
-});
+app.post('/greet', greeted.greeting);
 
+app.get('/greeted', greeted.get);
 
+app.get('/greeted/:userName', greeted.getCount);
 
-// 	app.post('/greet', function(req, res){
-// 	 // req.flash('info', 'please enter name');
-
-
-app.post('/greet', async function (req, res) {
-  // req.flash('info', 'please enter name');
-  //    res.redirect('/');
-  // await greet.getNames
-  let name = req.body.nameValue;
-  if(name){
-    await greet.storeName(name)
-
-  }
-  let language = req.body.languageType;
-  if (name === '') {
-    req.flash('info', 'please enter name')
-  }
-  else if (language === undefined && name != '') {
-    req.flash('info', 'please select a language')
-  }
- 
-// console.log(await greet.counter() + "dfghjkxsdfghjxcvg")
-  // var error = greet.errorMessages(name, language);
-  res.render('index', {
-    message: await greet.greeted(req.body.languageType, req.body.nameValue),
-    // message : (error === '') ? greet.greeted(req.body.languageType, req.body.nameValue): error,
-    count: await greet.counter()
-
-  })
-});
-
-
-
-//#counter
-app.get('/greeted', async function (req, res) {
-  var greetedNames = await greet.getNames();
-  for (const list in greetedNames) {
-
-  }
-  res.render('greeted', {
-    names: greetedNames
-
-  })
-
-})
-
-
-
-app.get('/greeted/:userName', async function (req, res) {
-  const userName = req.params.userName;
-  var count = await greet.getNameCounter(userName);
-
-
-  //it redirect the default route
-  res.render("greeted", {
-    name: `Hello, ${userName} have been greeted ${count} times`
-  });
-
-
-});
-
-
-
-
-
-app.get('/', async function (req, res) {
-  req.flash('info', 'please enter name');
-  res.redirect('/');
-});
-// app.get('/', function(req, res){
-//   // Get an array of flash messages by passing the key to req.flash()
-//   res.render('index', { messages: req.flash('info') });
-// });
-
-
-
-
+app.get('/', greeted.flash);
 
 const PORT = process.env.PORT || 3006;
 app.listen(PORT, function () {

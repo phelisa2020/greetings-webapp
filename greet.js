@@ -92,9 +92,9 @@ module.exports = function greet(pool) {
 	}
 	
 async function clearUsers() {
-await pool.query("delete from greetings");
+var reset = await pool.query("delete from greetings");
 
-
+return reset
 	}
 	return {
 		storeName,
@@ -102,7 +102,7 @@ await pool.query("delete from greetings");
 		greeted,
 		getNames,
 		errorMessages,
-		getNameCounter
-		, clearUsers
+		getNameCounter,
+		 clearUsers
 	}
 }
