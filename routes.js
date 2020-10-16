@@ -19,11 +19,15 @@ module.exports = function CategoryRoutes(greet) {
 
   }
   let language = req.body.languageType;
-  if (name === '') {
-    req.flash('info', 'please enter name')
-  }
-  else if (language === undefined && name != '') {
+  if (!language) {
     req.flash('info', 'please select a language')
+    res.render('index')
+    return
+  }
+  if (!name) {
+    req.flash('info', 'please select a name')
+    res.render('index')
+    return
   }
  
   res.render('index', {
