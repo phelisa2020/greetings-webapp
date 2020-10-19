@@ -43,7 +43,7 @@ app.use(session({
 // initialise the flash middleware
 app.use(flash());
 
-app.get('/addFlash',greeted.flashAdd)
+app.get('/addFlash', greeted.flashAdd)
 
 app.get('/', greeted.show);
 

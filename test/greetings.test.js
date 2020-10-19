@@ -103,7 +103,7 @@ describe('The basic database web app', function () {
         await greet.storeName( 'Lisa')
 let resultCount = await greet.getNameCounter("Lisa");
 
-        assert.strictEqual(resultCount, 2);
+        assert.deepStrictEqual({'greeted_count': 2},resultCount);
 
     })
     it('should throw an error when the name is not selected', async function () {
