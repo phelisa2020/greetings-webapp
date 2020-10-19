@@ -6,12 +6,12 @@ module.exports = function CategoryRoutes(greet) {
   };
 
   async function show(req, res, next) {
-try {
-res.render('index');
-} catch (err){
-  next(err)
-}
-};
+    res.render('index', {
+      
+      count: await greet.counter()
+  
+    })
+  } 
 
 
 
@@ -36,8 +36,8 @@ res.render('index');
   }
 
   else{
-    await greet.storeName(userName),
-    await greet.getNameCounter(userName)
+    await greet.storeName(name),
+    await greet.getNameCounter(name)
 
 
   }
@@ -79,11 +79,13 @@ async function get(req, res) {
 async function getCount(req, res) {
   const userName = req.params.userName;
   var count = await greet.getNameCounter(userName);
-
-
+  for (const key in count) {
+      var element = count[key]; 
+    }
+  
   //it redirect the default route
   res.render("greeted", {
-    name: `Hello, ${userName} have been greeted ${count} times`
+    name: `Hello, ${userName} have been greeted ${element} times`
   });
 
 

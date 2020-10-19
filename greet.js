@@ -85,10 +85,10 @@ module.exports = function greet(pool) {
 	async function getNameCounter(userName) {
 		// console.log({userName, namesGreeted});
 		// console.log(namesGreeted[userName]);
-		const checkingSQL = "select * from greetings where greeted_name = $1";
+		const checkingSQL = "select greeted_count from greetings where greeted_name = $1";
 		const results = await pool.query(checkingSQL, [userName])
-		return results.rows[0]["greeted_count"]
-		return namesGreeted[userName];
+		console.log(results.rows[0])
+		return results.rows[0]
 	}
 	
 async function clearUsers() {
