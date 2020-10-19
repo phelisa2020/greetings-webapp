@@ -4,45 +4,63 @@ module.exports = function CategoryRoutes(greet) {
     req.flash('info', 'Flash Message Added');
     res.redirect('/');
   };
-	
-  async function show(req, res) {
 
-  res.render('index', {
-    
-  });
+  async function show(req, res, next) {
+try {
+res.render('index');
+} catch (err){
+  next(err)
+}
 };
+
+
+
 
 	async function greeting(req, res) {
   let name = req.body.nameValue;
-  if(name){
-    await greet.storeName(name)
+  let language = req.body.languageType;
+  let errors = ""
+ 
+  
+  
+     if (!name && !language) {
+          errors =  "please enter a name and select a language "
+     }
+  else if (!language) {
+    errors = 'please select a language'
+    
+  }
+  else if(!name) {
+  errors =  'please select a name'
+    
+  }
+
+  else{
+    await greet.storeName(userName),
+    await greet.getNameCounter(userName)
+
 
   }
-  let language = req.body.languageType;
-  if (!language) {
-    req.flash('info', 'please select a language')
-    res.render('index')
-    return
+  if(errors ){
+    req.flash("info", errors),
+    res.render("index")
   }
-  if (!name) {
-    req.flash('info', 'please select a name')
-    res.render('index')
-    return
-  }
- 
+ else{
   res.render('index', {
     message: await greet.greeted(req.body.languageType, req.body.nameValue),
     count: await greet.counter()
 
   })
-};
+} 
 
+  }
+  
 
     async function clear(req, res) {
- 
+ try{
     await greet.clearUsers()
-  
-  
+ }catch(err)
+{}  
   res.redirect('/')
 };
 
