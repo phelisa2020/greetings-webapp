@@ -17,10 +17,13 @@ describe('The basic database web app', function () {
         await pool.query("delete from greetings;");
 
     });
+    
 
     it('should be able to greet phelisa in IsiXhosa', async function () {
-
+    
         let greet = greetings(pool);
+        
+        
         var theMessageElem = await greet.greeted('IsiXhosa', 'Lisa')
 
         assert.deepStrictEqual(theMessageElem, 'Molo, Lisa');
